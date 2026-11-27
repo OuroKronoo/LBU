@@ -161,3 +161,10 @@ body.lbu{margin:0;background:var(--lbu-page);color:var(--lbu-ink);font:14px/1.55
 .lbu-enrollment-icon{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#542b29;color:#fff0c7;font-size:20px;line-height:1;}
 .lbu-enrollment-panel{margin-top:12px;padding:18px;border:1px solid #ece2d6;border-radius:14px;background:#fff;}
 .lbu-enrollment-panel[hidden]{display:none;}
+.lbu-fee-breakdown{margin:22px 0;padding:22px 24px;border:1px solid var(--lbu-line);border-radius:14px;background:#fff;box-shadow:0 8px 24px rgba(62,33,32,.06);}
+.lbu-fee-breakdown h2{margin:0 0 12px;color:var(--lbu-maroon);font-size:22px;}
+.lbu-fee-breakdown>div{display:flex;justify-content:space-between;gap:20px;padding:9px 0;border-bottom:1px solid var(--lbu-line);}
+.lbu-fee-breakdown>div b{white-space:nowrap;color:var(--lbu-ink);}
+.lbu-fee-breakdown .lbu-fee-total{margin-top:4px;padding-top:14px;border-bottom:0;color:var(--lbu-maroon);font-size:18px;font-weight:700;}
+.lbu-fee-breakdown .lbu-fee-total b{color:var(--lbu-maroon);font-size:21px;}
+.lbu-fee-breakdown p{margin:10px 0 0;font-size:12px;}

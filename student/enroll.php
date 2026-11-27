@@ -10,6 +10,7 @@ function enroll_escape($value)
 
 $student = null;
 $subjects = array();
+$enrolledCodes = array();
 $accountID = isset($_SESSION['userID']) ? (int)$_SESSION['userID'] : 0;
 $profileQuery = mysqli_prepare($conn, 'SELECT studnum, course, yearlvl FROM studenttbl WHERE accountID = ? LIMIT 1');
 if ($profileQuery) {
@@ -20,6 +21,16 @@ if ($profileQuery) {
 	mysqli_stmt_close($profileQuery);
 }
 if ($student) {
+	$enrolledQuery = mysqli_prepare($conn, "SELECT subjects FROM student_subject WHERE studentID = ? AND approved = '1'");
+	if ($enrolledQuery) {
+		mysqli_stmt_bind_param($enrolledQuery, 's', $student['studnum']);
+		mysqli_stmt_execute($enrolledQuery);
+		$enrolledResult = mysqli_stmt_get_result($enrolledQuery);
+		while ($enrolledResult && ($record = mysqli_fetch_assoc($enrolledResult))) {
+			foreach (array_filter(array_map('trim', explode(',', (string)$record['subjects'])), 'strlen') as $enrolledCode) { $enrolledCodes[] = strtoupper($enrolledCode); }
+		}
+		mysqli_stmt_close($enrolledQuery);
+	}
 	$yearLevel = (int)preg_replace('/\D/', '', (string)$student['yearlvl']);
 	$subjectQuery = mysqli_prepare($conn, 'SELECT subjectcode, subjecttitle, description, numofunits FROM subjecttbl WHERE LOWER(course_con) = LOWER(?) AND year_level = ? ORDER BY subjectcode');
 	if ($subjectQuery) {
@@ -67,7 +78,7 @@ if ($student) {
 			<?php } else { ?>
 			<form method="post" action="showsubs.php">
 				<div class="lbu-table-wrap"><table class="lbu-table"><thead><tr><th class="num">Select</th><th>Code</th><th>Subject</th><th>Description</th><th class="num">Units</th></tr></thead><tbody>
-				<?php foreach ($subjects as $subject) { ?><tr><td class="num"><input class="lbu-check" type="checkbox" name="subject[]" value="<?php echo enroll_escape($subject['subjectcode']); ?>" aria-label="Select <?php echo enroll_escape($subject['subjectcode']); ?>" /></td><td><strong><?php echo enroll_escape($subject['subjectcode']); ?></strong></td><td><?php echo enroll_escape($subject['subjecttitle']); ?></td><td><?php echo enroll_escape($subject['description']); ?></td><td class="num"><?php echo (int)$subject['numofunits']; ?></td></tr><?php } ?>
+				<?php foreach ($subjects as $subject) { $isEnrolled = in_array(strtoupper($subject['subjectcode']), $enrolledCodes, true); ?><tr<?php echo $isEnrolled ? ' class="lbu-subject-enrolled"' : ''; ?>><td class="num"><?php if ($isEnrolled) { ?><span class="lbu-badge lbu-badge--ok">Enrolled</span><?php } else { ?><input class="lbu-check" type="checkbox" name="subject[]" value="<?php echo enroll_escape($subject['subjectcode']); ?>" aria-label="Select <?php echo enroll_escape($subject['subjectcode']); ?>" /><?php } ?></td><td><strong><?php echo enroll_escape($subject['subjectcode']); ?></strong></td><td><?php echo enroll_escape($subject['subjecttitle']); ?></td><td><?php echo enroll_escape($subject['description']); ?></td><td class="num"><?php echo (int)$subject['numofunits']; ?></td></tr><?php } ?>
 				</tbody></table></div>
 				<div class="lbu-actions"><label for="semester" class="lbu-label">Semester</label><select class="lbu-select" id="semester" name="sem"><option value="1st Sem">1st semester</option><option value="2nd Sem">2nd semester</option></select><button class="lbu-btn" type="submit">Review selected subjects →</button></div>
 			</form>

@@ -3,6 +3,11 @@ session_start();
 include('includes/conn.php');
 include('logcheck.php');
 
+$semesterColumn = mysqli_query($conn, "SHOW COLUMNS FROM student_subject LIKE 'semester'");
+if ($semesterColumn && mysqli_num_rows($semesterColumn) === 0) {
+	mysqli_query($conn, "ALTER TABLE student_subject ADD COLUMN semester varchar(20) NOT NULL DEFAULT ''");
+}
+
 function curriculum_escape($value)
 {
 	return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
@@ -41,11 +46,11 @@ if ($student && isset($_POST['reg'])) {
 	$validCodes = array();
 	$units = 0;
 	foreach ($postedCodes as $code) {
-		$check = mysqli_prepare($conn, 'SELECT subjectcode, numofunits FROM subjecttbl WHERE subjectcode = ? AND LOWER(course_con) = LOWER(?) LIMIT 1');
+		$check = mysqli_prepare($conn, 'SELECT subjectcode, numofunits FROM subjecttbl WHERE subjectcode = ? AND LOWER(course_con) = LOWER(?) AND year_level = ? LIMIT 1');
 		if (!$check) {
 			continue;
 		}
-		mysqli_stmt_bind_param($check, 'ss', $code, $student['course']);
+		mysqli_stmt_bind_param($check, 'ssi', $code, $student['course'], $studentYear);
 		mysqli_stmt_execute($check);
 		$checkResult = mysqli_stmt_get_result($check);
 		$row = $checkResult ? mysqli_fetch_assoc($checkResult) : null;
@@ -56,6 +61,22 @@ if ($student && isset($_POST['reg'])) {
 		}
 	}
 	$contents = implode(',', $validCodes);
+	$alreadyEnrolledCodes = array();
+	$enrolledQuery = mysqli_prepare($conn, "SELECT subjects FROM student_subject WHERE studentID = ? AND approved = '1'");
+	if ($enrolledQuery) {
+		mysqli_stmt_bind_param($enrolledQuery, 's', $student['studnum']);
+		mysqli_stmt_execute($enrolledQuery);
+		$enrolledResult = mysqli_stmt_get_result($enrolledQuery);
+		while ($enrolledResult && ($enrolledRow = mysqli_fetch_assoc($enrolledResult))) {
+			foreach (array_filter(array_map('trim', explode(',', (string)$enrolledRow['subjects'])), 'strlen') as $enrolledCode) {
+				$alreadyEnrolledCodes[] = strtoupper($enrolledCode);
+			}
+		}
+		mysqli_stmt_close($enrolledQuery);
+	}
+	$repeatedCodes = array_values(array_filter($validCodes, function ($code) use ($alreadyEnrolledCodes) {
+		return in_array(strtoupper($code), $alreadyEnrolledCodes, true);
+	}));
 	$alreadyEnrolled = false;
 	if ($semester !== '') {
 		$dup = mysqli_prepare($conn, "SELECT 1 FROM student_subject WHERE studentID = ? AND semester = ? AND approved IN ('0','1') LIMIT 1");
@@ -71,6 +92,8 @@ if ($student && isset($_POST['reg'])) {
 		$message = 'Please choose a semester before submitting.';
 	} elseif (!$validCodes) {
 		$message = 'No valid subjects were selected for your course.';
+	} elseif ($repeatedCodes) {
+		$message = 'You are already enrolled in: ' . implode(', ', $repeatedCodes) . '. Remove those subjects before submitting.';
 	} elseif ($alreadyEnrolled) {
 		$message = 'You already have a pending or approved enrollment request for ' . $semester . '.';
 	} else {
@@ -126,11 +149,18 @@ if ($student && $isEnrollmentPreview) {
 $lbuActive = $isEnrollmentPreview ? 'enroll.php' : 'showsubs.php';
 $totalUnits = 0;
 $extraFees = 0;
+$labCount = 0;
+$tutorialCount = 0;
 foreach ($subjects as $subject) {
 	$totalUnits += (int)$subject['numofunits'];
-	$extraFees += ((int)$subject['islab'] ? 1500 : 0) + ((int)$subject['istutorial'] ? 1500 : 0);
+	if ((int)$subject['islab']) { $labCount++; $extraFees += 1500; }
+	if ((int)$subject['istutorial']) { $tutorialCount++; $extraFees += 1500; }
 }
-$total = ($totalUnits * 296) + 2050 + 150 + 50 + $extraFees;
+$tuitionFee = $totalUnits * 296;
+$miscellaneousFee = 2050;
+$registrationFee = 150;
+$systemFee = 50;
+$total = $tuitionFee + $miscellaneousFee + $registrationFee + $systemFee + $extraFees;
 $studentName = $student ? trim($student['fname'] . ' ' . $student['minitial'] . ' ' . $student['lname']) : '';
 ?>
 <!doctype html>
@@ -183,9 +213,10 @@ $studentName = $student ? trim($student['fname'] . ' ' . $student['minitial'] . 
 				<div class="lbu-table-wrap"><table class="lbu-table"><thead><tr><th>Subject</th><th>Description</th><th>Schedule</th><th class="num">Units</th><th>Est. tuition</th></tr></thead><tbody>
 				<?php foreach ($subjects as $subject) { ?><tr><td><strong><?php echo curriculum_escape($subject['subjectcode']); ?></strong><br><?php echo curriculum_escape($subject['subjecttitle']); ?></td><td><?php echo curriculum_escape($subject['description']); ?></td><td><?php echo curriculum_escape(trim($subject['day'] . ' ' . $subject['time'] . ' ' . $subject['room'])); ?><br><?php echo curriculum_escape($subject['instructor']); ?></td><td class="num"><?php echo (int)$subject['numofunits']; ?></td><td>₱<?php echo number_format((int)$subject['numofunits'] * 296, 2); ?></td></tr><?php } ?>
 				</tbody></table></div>
+				<div class="lbu-fee-breakdown"><h2>Estimated fee breakdown</h2><div><span>Tuition (<?php echo $totalUnits; ?> units × ₱296)</span><b>₱<?php echo number_format($tuitionFee, 2); ?></b></div><div><span>Miscellaneous fee</span><b>₱<?php echo number_format($miscellaneousFee, 2); ?></b></div><div><span>Registration fee</span><b>₱<?php echo number_format($registrationFee, 2); ?></b></div><div><span>System fee</span><b>₱<?php echo number_format($systemFee, 2); ?></b></div><?php if ($labCount) { ?><div><span>Laboratory fee (<?php echo $labCount; ?> × ₱1,500)</span><b>₱<?php echo number_format($labCount * 1500, 2); ?></b></div><?php } ?><?php if ($tutorialCount) { ?><div><span>Tutorial fee (<?php echo $tutorialCount; ?> × ₱1,500)</span><b>₱<?php echo number_format($tutorialCount * 1500, 2); ?></b></div><?php } ?><div class="lbu-fee-total"><span>Estimated total</span><b>₱<?php echo number_format($total, 2); ?></b></div><p class="lbu-muted">This is an estimate based on your selected subjects and the fee rates configured for this system.</p></div>
 				<form method="post" class="lbu-actions screen-only" onsubmit="return confirm('Submit this enrollment request?');">
 					<input type="hidden" name="reg" value="1" /><input type="hidden" name="contents" value="<?php echo curriculum_escape(implode(',', $selectedCodes)); ?>" /><input type="hidden" name="units" value="<?php echo (int)$totalUnits; ?>" /><input type="hidden" name="sem" value="<?php echo curriculum_escape($semester); ?>" />
-					<a class="lbu-btn lbu-btn--ghost" href="enroll.php">← Back to subjects</a><button class="lbu-btn lbu-btn--gold" type="submit">Submit enrollment request</button><span class="lbu-total">Estimated total <b>₱<?php echo number_format($total, 2); ?></b></span>
+					<a class="lbu-btn lbu-btn--ghost" href="enroll.php">← Back to subjects</a><button class="lbu-btn lbu-btn--gold" type="submit">Submit enrollment request</button>
 				</form>
 			<?php } ?>
 		<?php } else { ?>
