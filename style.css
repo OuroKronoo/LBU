@@ -1,0 +1,53 @@
+/* ===== LBU · Option C (Campus Photo) · Login ===== */
+:root{
+  --lbu-maroon:#542b29;--lbu-maroon-dk:#3e2120;--lbu-cream:#fff0c7;--lbu-cream-2:#ead8bb;
+  --lbu-gold:#e9c77e;--lbu-gold-dk:#a07a3c;--lbu-page:#faf6f0;--lbu-line:#ece2d6;
+  --lbu-ink:#33231f;--lbu-muted:#8a7a70;
+}
+body.lbu{margin:0;background:var(--lbu-page);color:var(--lbu-ink);font:14px/1.55 Poppins,Arial,sans-serif;}
+.lbu-enrollment-history{margin:22px 0 32px;border:0;border-radius:14px;background:transparent;}
+.lbu-enrollment-history summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;box-sizing:border-box;padding:0 20px;border:1px solid var(--lbu-maroon);border-radius:40px;background:var(--lbu-maroon);color:var(--lbu-cream);font-weight:600;cursor:pointer;list-style:none;box-shadow:0 8px 18px rgba(62,33,32,.16);transition:filter .18s ease,transform .18s ease;}
+.lbu-enrollment-history summary:hover{filter:brightness(1.12);transform:translateY(-1px);}
+.lbu-enrollment-history summary::-webkit-details-marker{display:none;}
+.lbu-enrollment-history summary::after{content:'+';display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--lbu-gold);color:var(--lbu-maroon);font-size:20px;line-height:1;}
+.lbu-enrollment-history[open] summary::after{content:'−';}
+.lbu-enrollment-history summary span{margin-left:auto;color:var(--lbu-cream-2);font-size:12px;font-weight:500;}
+.lbu-enrollment-history .lbu-table-wrap{padding:0 16px 16px;}
+.lbu-enrollment-history summary:focus-visible{outline:3px solid var(--lbu-gold);outline-offset:3px;}
+.lbu-article-trigger{overflow:hidden;}
+.lbu-article-trigger p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;}
+.lbu-enrollment-toggle{width:100%;min-height:56px;justify-content:flex-start;gap:14px;text-align:left;box-shadow:0 8px 18px rgba(62,33,32,.16);}
+.lbu-enrollment-count{margin-left:auto;color:var(--lbu-maroon-dk);font-size:12px;font-weight:600;}
+.lbu-enrollment-icon{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--lbu-maroon);color:var(--lbu-cream);font-size:20px;line-height:1;}
+.lbu-enrollment-panel{margin-top:12px;padding:18px;border:1px solid var(--lbu-line);border-radius:14px;background:#fff;}
+.lbu-enrollment-panel[hidden]{display:none;}
+.lbu h1,.lbu h2,.lbu h3{font-family:Lora,Georgia,serif;font-weight:600;}
+.lbu-eyebrow{margin:0;color:var(--lbu-gold);font-size:12px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;}
+.lbu-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 22px;border:1px solid var(--lbu-maroon);
+  border-radius:40px;background:var(--lbu-maroon);color:var(--lbu-cream)!important;font:600 14px Poppins,sans-serif;text-decoration:none!important;cursor:pointer;}
+.lbu-btn--gold{background:var(--lbu-gold);border-color:var(--lbu-gold);color:var(--lbu-maroon-dk)!important;}
+.lbu-btn:hover{filter:brightness(1.06);}
+.lbu-btn:focus-visible{outline:2px solid var(--lbu-gold);outline-offset:3px;}
+.lbu-alert{padding:12px 16px;border-radius:10px;background:#fbefd9;color:#8a5a12;margin:0 0 16px;}
+
+body.lbu-login{min-height:100vh;margin:0;display:flex;align-items:center;justify-content:space-between;gap:48px;padding:40px 110px;box-sizing:border-box;
+  background:linear-gradient(90deg,rgba(52,24,22,.95),rgba(62,30,27,.82) 50%,rgba(62,30,27,.45)),url(images/campus/login-campus-lawn.jpg) center/cover no-repeat;}
+.lbu-login-copy{max-width:620px;color:#fff4d5;}
+.lbu-login-copy img{width:120px;height:120px;border-radius:50%;box-shadow:0 0 0 6px rgba(233,199,126,.25);}
+.lbu-login-copy .lbu-eyebrow{margin-top:26px;}
+.lbu-login-copy h1{margin:10px 0 12px;font-size:62px;line-height:1.05;color:#fff4d5;}
+.lbu-login-copy p:last-child{margin:0;font-size:18px;color:#ead8bb;}
+.lbu-login-card{width:440px;max-width:100%;box-sizing:border-box;padding:38px 40px;border-radius:18px;background:#fff;box-shadow:0 24px 60px rgba(20,8,6,.4);}
+.lbu-login-card h2{margin:0 0 4px;font-size:28px;color:#4a2624;}
+.lbu-login-sub{margin:0 0 22px;color:#8a7a70;}
+.lbu-login-card label{display:block;margin-bottom:6px;font-size:13px;font-weight:600;color:#4a2624;}
+.lbu-login-card input{display:block;width:100%;box-sizing:border-box;height:48px;margin-bottom:18px;padding:0 14px;border:1px solid #d9c6a8;border-radius:10px;background:#fcfaf7;font:14px Poppins,sans-serif;}
+.lbu-login-card input:focus{outline:2px solid #e9c77e;outline-offset:1px;border-color:#c49a4f;}
+.lbu-login-card .lbu-btn{width:100%;margin-top:6px;}
+.lbu-login-help{margin:18px 0 0;text-align:center;font-size:12px;color:#8a7a70;}
+@media (max-width:900px){
+  .lbu-login{flex-direction:column;justify-content:center;padding:32px 20px;text-align:center;}
+  .lbu-login-copy img{width:90px;height:90px;}
+  .lbu-login-copy h1{font-size:40px;}
+  .lbu-login-card{text-align:left;}
+}

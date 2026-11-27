@@ -1,0 +1,163 @@
+/* ===== LBU · Option C (Campus Photo) ===== */
+:root{
+  --lbu-maroon:#542b29;--lbu-maroon-dk:#3e2120;--lbu-cream:#fff0c7;--lbu-cream-2:#ead8bb;
+  --lbu-gold:#e9c77e;--lbu-gold-dk:#a07a3c;--lbu-page:#faf6f0;--lbu-line:#ece2d6;
+  --lbu-ink:#33231f;--lbu-muted:#8a7a70;--lbu-hero-img:url(../images/campus/hero-main-building.jpg);
+}
+body.lbu{margin:0;background:var(--lbu-page);color:var(--lbu-ink);font:14px/1.55 Poppins,Arial,sans-serif;}
+.lbu h1,.lbu h2,.lbu h3{font-family:Lora,Georgia,serif;font-weight:600;}
+
+/* Hero */
+.lbu-hero{position:relative;isolation:isolate;background:var(--lbu-hero-img) center 40%/cover no-repeat;color:var(--lbu-cream);}
+.lbu-hero::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(90deg,rgba(52,24,22,.95) 0%,rgba(62,30,27,.82) 50%,rgba(62,30,27,.45) 100%);}
+.lbu-bar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 60px;}
+.lbu-logo{display:flex;align-items:center;gap:14px;color:var(--lbu-cream);text-decoration:none;font-family:Lora,serif;font-size:20px;font-weight:600;}
+.lbu-logo img{width:52px;height:52px;border-radius:50%;object-fit:cover;}
+.lbu-tag{font-family:Poppins,sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  background:var(--lbu-gold);color:var(--lbu-maroon-dk);border-radius:20px;padding:3px 10px;}
+.lbu-nav ul{display:flex;flex-wrap:wrap;gap:6px 28px;margin:0;padding:0;list-style:none;}
+.lbu-nav .nav-link{display:inline-block;padding:4px 0;color:#f2dfba;font-size:14px;text-decoration:none;border-bottom:2px solid transparent;background:none;}
+.lbu-nav .nav-link:hover,.lbu-nav .nav-link:focus-visible{color:#fff;border-bottom-color:rgba(233,199,126,.5);}
+.lbu-nav .nav-link.is-active{color:#fff;font-weight:600;border-bottom-color:var(--lbu-gold);}
+.lbu-pagehead{padding:26px 60px 74px;max-width:900px;}
+.lbu-eyebrow{margin:0;color:var(--lbu-gold);font-size:12px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;}
+.lbu-pagehead h1{margin:8px 0 6px;font-size:44px;line-height:1.1;color:var(--lbu-cream);}
+.lbu-pagehead p:not(.lbu-eyebrow){margin:0;color:var(--lbu-cream-2);font-size:15px;}
+
+/* Panel that overlaps the hero */
+.lbu-panel{position:relative;box-sizing:border-box;margin:-46px 60px 0;padding:26px 30px;
+  background:#fff;border-radius:14px;box-shadow:0 14px 34px rgba(48,25,22,.12);}
+.lbu-panel h2{margin:0 0 14px;font-size:22px;color:#4a2624;}
+.lbu-footer{margin:28px 60px 32px;color:var(--lbu-muted);font-size:13px;}
+
+/* Buttons */
+.lbu-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 22px;border:1px solid var(--lbu-maroon);
+  border-radius:40px;background:var(--lbu-maroon);color:var(--lbu-cream)!important;font:600 14px Poppins,sans-serif;text-decoration:none!important;cursor:pointer;}
+.lbu-btn--gold{background:var(--lbu-gold);border-color:var(--lbu-gold);color:var(--lbu-maroon-dk)!important;}
+.lbu-btn--ghost{background:#fff;border-color:#d9c6a8;color:var(--lbu-maroon)!important;}
+.lbu-btn:hover{filter:brightness(1.06);}
+.lbu-btn:focus-visible,.lbu-nav .nav-link:focus-visible,.lbu-logo:focus-visible{outline:2px solid var(--lbu-gold);outline-offset:3px;}
+
+/* Info strip (4 facts in a row) */
+.lbu-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));border:1px solid var(--lbu-line);border-radius:12px;margin-bottom:20px;}
+.lbu-strip > div{padding:14px 20px;border-left:1px solid var(--lbu-line);}
+.lbu-strip > div:first-child{border-left:0;}
+.lbu-strip small,.lbu-label{display:block;font-size:11px;color:var(--lbu-muted);text-transform:uppercase;letter-spacing:.08em;}
+.lbu-strip b{display:block;margin-top:2px;font-size:17px;color:var(--lbu-maroon);}
+
+/* Tables */
+.lbu-table-wrap{width:100%;overflow-x:auto;}
+.lbu-table{width:100%;min-width:640px;border-collapse:collapse;font-size:13px;}
+.lbu-table th{padding:10px 12px;border-bottom:2px solid var(--lbu-line);text-align:left;font-size:11px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--lbu-muted);background:none;}
+.lbu-table td{padding:12px;border-bottom:1px solid #f1e9df;vertical-align:top;}
+.lbu-table td strong,.lbu-table td b{color:var(--lbu-maroon);}
+.lbu-table .num{text-align:center;white-space:nowrap;}
+
+/* Badges */
+.lbu-badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.04em;background:#f3e9dc;color:var(--lbu-maroon);}
+.lbu-badge--dark{background:var(--lbu-maroon);color:var(--lbu-cream);}
+.lbu-badge--ok{background:#e6efe1;color:#3d5f2c;}
+.lbu-badge--wait{background:#fbefd9;color:#8a5a12;}
+
+/* Detail boxes (profile) */
+.lbu-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+.lbu-field{padding:14px 18px;border:1px solid var(--lbu-line);border-radius:12px;background:#fcfaf7;overflow-wrap:anywhere;}
+.lbu-field .lbu-label{color:var(--lbu-gold-dk);font-weight:700;letter-spacing:.1em;}
+.lbu-field div{margin-top:4px;font-size:16px;}
+.lbu-field--wide{grid-column:1/-1;}
+
+/* Action row under tables/forms */
+.lbu-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:18px;}
+.lbu-actions .lbu-total{margin-left:auto;color:var(--lbu-muted);font-size:15px;}
+.lbu-actions .lbu-total b{font-family:Lora,serif;font-size:22px;color:var(--lbu-maroon);}
+.lbu-select{min-height:44px;padding:0 18px;border:1px solid #d9c6a8;border-radius:40px;background:#fff;font:14px Poppins,sans-serif;color:var(--lbu-ink);}
+.lbu-empty{padding:16px;border:1px dashed #cdbbaa;border-radius:10px;background:#fcfaf7;}
+.lbu-alert{padding:12px 16px;border-radius:10px;background:#fbefd9;color:#8a5a12;margin:0 0 16px;}
+
+/* Stat cards (admin home) */
+.lbu-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:22px;}
+.lbu-stat{padding:18px 22px;border:1px solid var(--lbu-line);border-radius:12px;}
+.lbu-stat strong{display:block;font-family:Lora,serif;font-size:38px;line-height:1.1;color:var(--lbu-maroon);}
+.lbu-stat--hl{background:var(--lbu-maroon);border-color:var(--lbu-maroon);}
+.lbu-stat--hl .lbu-label{color:var(--lbu-gold);} .lbu-stat--hl strong{color:var(--lbu-cream);}
+
+/* Article cards (student home) */
+.lbu-cards{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:20px;}
+.lbu-card{overflow:hidden;border:1px solid var(--lbu-line);border-radius:12px;background:#fff;text-decoration:none;color:inherit;}
+.lbu-article-trigger{display:block;width:100%;padding:0;text-align:left;font:inherit;cursor:pointer;transition:transform .16s ease,box-shadow .16s ease;}
+.lbu-article-trigger:hover,.lbu-article-trigger:focus-visible{transform:translateY(-2px);box-shadow:0 10px 24px rgba(55,29,25,.16);}
+.lbu-card-hint{display:inline-block;margin-top:12px;color:var(--lbu-maroon);font-size:12px;font-weight:700;}
+.lbu-article-dialog{width:min(560px,calc(100% - 32px));max-height: min(82vh,720px);padding:24px;border:1px solid var(--lbu-line);border-radius:16px;background:#fff;color:var(--lbu-ink);box-shadow:0 24px 80px rgba(22,12,10,.35);}
+.lbu-article-dialog::backdrop{background:rgba(25,15,14,.62);backdrop-filter:blur(2px);}
+.lbu-article-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.lbu-article-dialog-head form{margin:0;}
+.lbu-dialog-close{width:36px;height:36px;border:0;border-radius:50%;background:#f4efeb;color:var(--lbu-maroon);font-size:26px;line-height:1;cursor:pointer;}
+.lbu-article-dialog-image{display:block;width:100%;max-height:250px;margin:16px 0;object-fit:cover;border-radius:10px;}
+.lbu-article-dialog h2{margin:12px 0;color:var(--lbu-maroon-dk);font-family:Lora,serif;font-size:26px;}
+.lbu-article-dialog p{margin:0 0 20px;line-height:1.7;white-space:pre-line;}
+.lbu-article-dialog[open]{animation:lbu-dialog-in .16s ease-out;}
+@keyframes lbu-dialog-in{from{opacity:0;transform:translateY(8px) scale(.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+.lbu-card img,.lbu-card .lbu-card-art{display:block;width:100%;height:120px;object-fit:cover;background:linear-gradient(135deg,#7a4636,#c49a4f);}
+.lbu-card > div{padding:14px 18px;}
+.lbu-card .lbu-label{color:var(--lbu-gold-dk);font-weight:700;letter-spacing:.12em;}
+.lbu-card h3{margin:4px 0 0;font-size:19px;color:var(--lbu-maroon-dk);}
+
+/* Responsive */
+@media (max-width:900px){
+  .lbu-bar{flex-direction:column;align-items:flex-start;padding:16px 20px;}
+  .lbu-pagehead{padding:16px 20px 64px;}
+  .lbu-pagehead h1{font-size:34px;}
+  .lbu-panel{margin:-44px 12px 0;padding:20px 16px;}
+  .lbu-footer{margin:20px 16px 24px;}
+  .lbu-stats,.lbu-cards{grid-template-columns:1fr;}
+}
+@media (max-width:620px){
+  .lbu-nav ul{gap:4px 18px;}
+  .lbu-fields{grid-template-columns:1fr;}
+  .lbu-strip > div{border-left:0;border-top:1px solid var(--lbu-line);}
+  .lbu-strip > div:first-child{border-top:0;}
+  .lbu-actions{flex-direction:column;align-items:stretch;}
+  .lbu-actions .lbu-total{margin-left:0;}
+}
+
+/* ===== Page-specific additions ===== */
+.lbu-muted{color:var(--lbu-muted);}
+.lbu-hero--home .lbu-pagehead{padding:28px 60px 110px;}
+.lbu-hero--home h1{font-size:58px;}
+.lbu-hero-actions{margin-top:22px;}
+.lbu-btn--line{background:transparent;border-color:var(--lbu-cream);color:var(--lbu-cream)!important;}
+.lbu-btn--sm{min-height:34px;padding:0 16px;font-size:12px;}
+.lbu-check{width:20px;height:20px;accent-color:#542b29;}
+.lbu-card p{margin:6px 0 0;font-size:13px;color:#5a4a42;}
+.lbu-card > .lbu-card-art{padding:0;}
+.lbu-card:nth-child(1) .lbu-card-art{background:linear-gradient(135deg,#7a4636,#c49a4f);}
+.lbu-card:nth-child(2) .lbu-card-art{background:linear-gradient(135deg,#542b29,#a07a3c);}
+.lbu-card:nth-child(3) .lbu-card-art{background:linear-gradient(135deg,#3e2120,#e9c77e);}
+.lbu-profile-head{display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin-bottom:22px;}
+.lbu-avatar{display:flex;align-items:center;justify-content:center;width:70px;height:70px;border-radius:50%;background:var(--lbu-maroon);color:var(--lbu-cream);font:600 26px Lora,serif;}
+.lbu-profile-name{flex:1 1 220px;min-width:0;}
+.lbu-profile-name h2{margin:0;font-size:24px;}
+.lbu-split{display:grid;grid-template-columns:1.5fr 1fr;gap:20px;}
+.lbu-stack{display:flex;flex-direction:column;gap:10px;}
+.lbu-stack .lbu-btn{width:100%;box-sizing:border-box;}
+@media (max-width:900px){
+  .lbu-hero--home .lbu-pagehead{padding:16px 20px 90px;}
+  .lbu-hero--home h1{font-size:40px;}
+  .lbu-split{grid-template-columns:1fr;}
+}
+@media print{
+  body.lbu{background:#fff;}
+  .lbu-hero,.lbu-footer,.screen-only{display:none!important;}
+  .lbu-panel{margin:0;padding:0;box-shadow:none;}
+}
+/* Enrollment history control on the student home page. */
+.lbu-enrollment-history{margin:22px 0 32px;}
+.lbu-enrollment-toggle{display:flex;width:100%;min-height:56px;align-items:center;justify-content:flex-start;gap:14px;padding:0 20px;border:0;border-radius:40px;background:#e9c77e;color:#3e2120;font:600 14px Poppins,Arial,sans-serif;text-align:left;cursor:pointer;box-shadow:0 8px 18px rgba(62,33,32,.16);}
+.lbu-enrollment-toggle:hover{filter:brightness(1.05);transform:translateY(-1px);}
+.lbu-enrollment-toggle:focus-visible{outline:3px solid #a07a3c;outline-offset:3px;}
+.lbu-enrollment-count{margin-left:auto;color:#3e2120;font-size:12px;font-weight:600;}
+.lbu-enrollment-icon{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#542b29;color:#fff0c7;font-size:20px;line-height:1;}
+.lbu-enrollment-panel{margin-top:12px;padding:18px;border:1px solid #ece2d6;border-radius:14px;background:#fff;}
+.lbu-enrollment-panel[hidden]{display:none;}
